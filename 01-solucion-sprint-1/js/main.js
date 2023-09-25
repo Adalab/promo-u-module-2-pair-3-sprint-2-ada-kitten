@@ -37,7 +37,7 @@ const kittenData_3 = {
     race: "",
 };
 
-const kittenDataList = [kittenData_1, kittenData_2, kittenData_3];
+let kittenDataList = [];
 
 
 //Funciones
@@ -98,6 +98,8 @@ function addNewKitten(event) {
     const valueDesc = inputDesc.value;
     const valuePhoto = inputPhoto.value;
     const valueName = inputName.value;
+    const valueRace = inputRace.value;
+
     
     if (valueDesc === "" || valuePhoto === "" || valueName === "") {
         labelMessageError.innerHTML = "¡Uy! parece que has olvidado algo";
@@ -109,8 +111,16 @@ function addNewKitten(event) {
         image: valuePhoto,
         name: valueName,
         desc: valueDesc,
+        race: valueRace,
   };
     kittenDataList.push(newKittenDataObject);
+
+    inputDesc.value = "";
+    inputPhoto.value = "";
+    inputName.value = "";
+    inputRace.value = "";
+
+    renderKittenList(kittenDataList);
 };
 
 //Cancelar la búsqueda de un gatito
@@ -120,10 +130,11 @@ function cancelNewKitten(event) {
     inputDesc.value = "";
     inputPhoto.value = "";
     inputName.value = "";
+    inputRace.value = "";
 }
 
 //Filtrar por descripción
-function filterKitten(event) {
+/*function filterKitten(event) {
     event.preventDefault();
     const descrSearchText = input_search_desc.value;
     listElement.innerHTML = "";
@@ -132,7 +143,18 @@ function filterKitten(event) {
             listElement.innerHTML += renderKitten(kittenItem);
         }
     }
-}
+}*/
+function filterKitten(event) {
+    event.preventDefault();
+    const filteredCat = kittenDataList
+    .filter ((eachCat)=> eachCat.desc)
+    .filter ((eachCat)=> eachCat.race); 
+    const filteredCatList = kittenDataList
+        .filter(filteredCat)
+        .filter(filteredCat);
+        
+    renderKittenList (filteredCatList);
+  }
 
 //Mostrar el litado de gatitos en ell HTML
 renderKittenList(kittenDataList);
@@ -146,6 +168,16 @@ buttonCancelForm.addEventListener("click", cancelNewKitten);
 
 ////2.11 agregar un nuevo gatito al listado
 
+/////2.13 peticion al servidor
 
+const GITHUB_USER = '<AlbaGG25>';
+const SERVER_URL = `https://dev.adalab.es/api/kittens/${GITHUB_USER}`;
+
+fetch(SERVER_URL)
+.then((response)=> response.json())
+.then ((data)=> {
+kittenDataList = data.results
+renderKittenList(kittenDataList); 
+}); 
 
 
