@@ -173,11 +173,22 @@ buttonCancelForm.addEventListener("click", cancelNewKitten);
 const GITHUB_USER = '<AlbaGG25>';
 const SERVER_URL = `https://dev.adalab.es/api/kittens/${GITHUB_USER}`;
 
-fetch(SERVER_URL)
-.then((response)=> response.json())
-.then ((data)=> {
-kittenDataList = data.results
-renderKittenList(kittenDataList); 
-}); 
 
-
+const kittenListStored = JSON.parse(localStorage.getItem('kittensList'));
+if (kittenListStored !== null) { 
+    renderKittenList(kittenListStored);
+ 
+  } else {
+ 
+    fetch(SERVER_URL)
+      .then((response) => response.json())
+      .then((data) => {
+        kittenDataList = data.results
+        renderKittenList(kittenDataList); 
+        localStorage.setItem('kittensList', JSON.stringify(kittenDataList));
+        console.log(kittenDataList);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
