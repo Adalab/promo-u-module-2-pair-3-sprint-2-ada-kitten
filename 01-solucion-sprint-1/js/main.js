@@ -42,8 +42,6 @@ let kittenDataList = [];
 
 //Funciones
 function renderKitten(kittenData) {
-
-
     let html = '';
     if (kittenData.race === "") {
         html = `Uy que despiste, no sabemos su raza`;
@@ -51,6 +49,55 @@ function renderKitten(kittenData) {
         html = kittenData.race;
       }
 
+    /////////crear li
+    const liElement = document.createElement('li');
+    liElement.setAttribute('class', 'card');
+    listElement.appendChild(liElement); 
+
+    /////////crear article
+    const artElement = document.createElement('article');
+    liElement.appendChild(artElement); 
+    
+    /////////crear imagen
+    const imgElement = document.createElement('img');
+    artElement.appendChild(imgElement); 
+    imgElement.setAttribute('src', kittenData.image);
+    imgElement.setAttribute('alt', 'gatito');
+    imgElement.setAttribute('class', 'card_img');
+
+    /////////crear titulo nombre
+    const titleElement = document.createElement('h3');
+    artElement.appendChild(titleElement); 
+    const titleText = document.createTextNode (kittenData.name); 
+    titleElement.setAttribute('class', 'card_title');
+    titleElement.appendChild(titleText);
+
+    ///////////crear  race
+    const raceElement = document.createElement('h3');
+    artElement.appendChild(raceElement); 
+    const raceText = document.createTextNode (kittenData.race); 
+    raceElement.setAttribute('class', 'card_race');
+    raceElement.appendChild(raceText);
+
+    /////////crear parrafo descripcion
+    const descElement = document.createElement('p');
+    artElement.appendChild(descElement); 
+    const descText = document.createTextNode (kittenData.desc); 
+    descElement.setAttribute('class', 'card_description');
+    descElement.appendChild(descText);
+
+    return liElement;
+    
+  }
+
+
+/*function renderKitten(kittenData) {
+    let html = '';
+    if (kittenData.race === "") {
+        html = `Uy que despiste, no sabemos su raza`;
+      } else {
+        html = kittenData.race;
+      }
 
     const kitten = `<li class="card">
     <article>
@@ -66,13 +113,14 @@ function renderKitten(kittenData) {
       </p>
     </article>
     </li>`;
+
     return kitten;
-}
+}*/
 
 function renderKittenList(kittenDataList) {
     listElement.innerHTML = "";
     for (const kittenItem of kittenDataList) {
-        listElement.innerHTML += renderKitten(kittenItem);
+      listElement.appendChild(renderKitten (kittenItem));
     }
 }
 
